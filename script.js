@@ -9,7 +9,7 @@ function moveButton() {
     let y = Math.random() * (window.innerHeight - button.clientHeight);
     button.style.left = x + 'px';
     button.style.top = y + 'px';
-    if (clicks < 10) setTimeout(moveButton, delay);
+    if (clicks < 2) setTimeout(moveButton, delay);
     console.log(clicks)
 }
 
@@ -18,29 +18,41 @@ function reset() {
     clicks = 0;
     level = 1;
     delay = 2000;
+    this.style.backgroundColor = '';
+
+    moveButton()
+}
+
+let win = () => {
+    setTimeout(() => {
+        alert("You won!");
+        reset();
+    }, 0);
 }
 
 button.onclick = function () {
+
+    // Change button to red to indicate click
+    this.style.backgroundColor = 'red'
 
     // increment clicks and level
     clicks++;
     level++;
 
     // check if the user has won
-    if (clicks >= 10) {
+    if (clicks >= 2) {
         alert("You won!");
-        return;
+        reset()
+        //win()
     }
-
-    delay *= .99; // 1% speed increase
-
-    // Change button to red to indicate click
-    this.style.backgroundColor = 'red';
 
     // Revert the button's color after 300ms
     setTimeout(() => {
         this.style.backgroundColor = '';  // Reverts to original or CSS-defined color.
     }, 300);
+    delay *= .99; // 1% speed increase
+
+
 
     // Redraw/move button
     moveButton();
